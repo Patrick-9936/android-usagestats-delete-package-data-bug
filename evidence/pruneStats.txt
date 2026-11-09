@@ -1,0 +1,27 @@
+668:    private boolean pruneStats(HashMap<String, Long> installedPackages, IntervalStats stats) {
+669-        boolean dataPruned = false;
+670-
+671-        // prune old package usage stats
+672-        for (int i = stats.packageStats.size() - 1; i >= 0; i--) {
+673-            final UsageStats usageStats = stats.packageStats.valueAt(i);
+674-            final Long timeInstalled = installedPackages.get(usageStats.mPackageName);
+675-            if (timeInstalled == null || timeInstalled > usageStats.mEndTimeStamp) {
+676-                stats.packageStats.removeAt(i);
+677-                dataPruned = true;
+678-            }
+679-        }
+680-        if (dataPruned) {
+681-            // ensure old stats don't linger around during the obfuscation step on write
+682-            stats.packageStatsObfuscated.clear();
+683-        }
+684-
+685-        // prune old events
+686-        for (int i = stats.events.size() - 1; i >= 0; i--) {
+687-            final UsageEvents.Event event = stats.events.get(i);
+688-            final Long timeInstalled = installedPackages.get(event.mPackage);
+689-            if (timeInstalled == null || timeInstalled > event.mTimeStamp) {
+690-                stats.events.remove(i);
+691-                dataPruned = true;
+692-            }
+693-        }
+694-

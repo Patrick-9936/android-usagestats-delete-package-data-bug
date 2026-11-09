@@ -1,0 +1,7 @@
+1581:    void deleteDataFor(String pkg) {
+1582-        // reuse the existing prune method to delete data for the specified package.
+1583-        // we'll use the current timestamp so that all events before now get pruned.
+1584-        prunePackagesDataOnUpgrade(
+1585-                new HashMap<>(Collections.singletonMap(pkg, SystemClock.elapsedRealtime())));
+1586-    }
+1587-
